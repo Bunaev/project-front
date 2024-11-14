@@ -1,11 +1,46 @@
 <html>
 <head>
     <title>RPG</title>
+    <meta charset="UTF-8">
     <script src=https://code.jquery.com/jquery-3.6.0.min.js></script>
-    <link href="/css/my.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/my.css">
 </head>
 <body>
 <h1>RPG admin panel</h1>
-
+<table id="myTable">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Title</th>
+            <th>Race</th>
+            <th>Profession</th>
+            <th>Level</th>
+            <th>Birthday</th>
+            <th>Banned</th>
+        </tr>
+    </thead>
+</table>
+<script>
+$(document).ready(function() {
+    $.ajax({
+        type: "GET",
+        url: "/rest/players",
+        success: function (data) {
+            for (var i = 0; i < data.length; i++) {
+                $("#myTable").append('<tr></tr>').
+                append('<td>' + data[i].id + '</td>').
+                append('<td>' + data[i].name + '</td>').
+                append('<td>' + data[i].title + '</td>').
+                append('<td>' + data[i].race + '</td>').
+                append('<td>' + data[i].profession + '</td>').
+                append('<td>' + data[i].level + '</td>').
+                append('<td>' + data[i].birthday + '</td>').
+                append('<td>' + data[i].banned + '</td>');
+            }
+        }
+    })
+})
+</script>
 </body>
 </html>
