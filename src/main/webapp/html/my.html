@@ -7,6 +7,15 @@
 </head>
 <body>
 <h1>RPG admin panel</h1>
+<h2>Account List</h2>
+<form>
+    <label for="counts">Count per rage:</label>
+    <select id="counts" name="counts" onclick="countOfPages()">
+        <option value="3">3</option>
+        <option value="6">6</option>
+        <option value="10">10</option>
+    </select>
+</form>
 <table id="myTable">
     <thead>
         <tr>
@@ -21,12 +30,16 @@
         </tr>
     </thead>
 </table>
+<div id="countButtons">
+
+</div>
 <script>
 $(document).ready(function() {
     $.ajax({
         type: "GET",
-        url: "/rest/players",
+        url: "/rest/players?pageSize=10",
         success: function (data) {
+            console.log(data)
             for (var i = 0; i < data.length; i++) {
                 $("#myTable").append('<tr></tr>').
                 append('<td>' + data[i].id + '</td>').
@@ -35,12 +48,26 @@ $(document).ready(function() {
                 append('<td>' + data[i].race + '</td>').
                 append('<td>' + data[i].profession + '</td>').
                 append('<td>' + data[i].level + '</td>').
-                append('<td>' + data[i].birthday + '</td>').
+                append('<td>' + new Date(data[i].birthday).toLocaleDateString("en-US") + '</td>').
                 append('<td>' + data[i].banned + '</td>');
             }
         }
     })
 })
+$(document).ready(countOfPages())
+function countOfPages() {
+    $.ajax({
+        type: "GET",
+        url: "/rest/players/count",
+        success: function (data) {
+            const count = Math.ceil(data / $('#counts').val());
+            $('#countButtons').empty().append('Pages: ')
+            for (let i = 0; i < count; i++) {
+                $('#countButtons').append('<button onclick="this.style.color = \'red\'">' + (i + 1) + '</button>');
+            }
+        }
+    })
+}
 </script>
 </body>
 </html>
