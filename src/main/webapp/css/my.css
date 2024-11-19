@@ -10,6 +10,8 @@
     border: 1px solid #dddddd;
 }
 #myTable td {
+    vertical-align: middle;
     border: 1px solid #dddddd;
-    padding: 5px;
+    padding: 10px;
+    background: antiquewhite;
 }
