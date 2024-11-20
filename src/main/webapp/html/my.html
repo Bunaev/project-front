@@ -151,7 +151,7 @@ function createNewAccount(button) {
         '<br><label style="display: block;float: left;width: 80px;height: 15px;margin-top: 21px;">Level:</label><input id="newLevel" type="number" placeholder="0-100" max="100" min="0" style="margin-top: 18px;"></br>',
         '<br><label style="display: block;float: left;width: 80px;height: 15px;margin-top: 5px;">Birthday:</label><input id="newBirthday" type="date" style="margin-top: 5px;"></br>',
         '<br><label style="display: block;float: left;width: 80px;height: 15px;margin-top: 5px;">Banned:</label><select id="newBanned" style="position: absolute;margin-top: 5px;"><option value="true">true</option><option value="false">false</option></select></br>')
-    $('#createAccount').append('<br><button id="saveButton" style="margin-top: 10px;">Save</button></br><br>');
+    $('#createAccount').append('<br><button id="saveButton" style="margin-top: 10px;">Save</button> <button id="cancelButton" style="margin-top: 10px;">Cancel</button></br><br>');
     document.getElementById('saveButton').onclick = function () {
         $.ajax({
             url: "/rest/players/",
@@ -166,10 +166,15 @@ function createNewAccount(button) {
             }),
             success: function () {
                 showList(selectedPage)
+                countOfPages(selectedPage)
                 $('#createAccount').empty()
                 button.disabled = false;
             }
         })
+    }
+    document.getElementById('cancelButton').onclick = function () {
+        $('#createAccount').empty()
+        button.disabled = false;
     }
 }
 </script>
